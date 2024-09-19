@@ -61,10 +61,10 @@ class RegisterMixin(Output):
 
     @classmethod
     def Field(cls, *args, **kwargs):
-        if app_settings.ALLOW_LOGIN_NOT_VERIFIED:
-            if using_refresh_tokens():
-                cls._meta.fields["refresh_token"] = graphene.Field(graphene.String)
-            cls._meta.fields["token"] = graphene.Field(graphene.String)
+        #if app_settings.ALLOW_LOGIN_NOT_VERIFIED:
+        #    if using_refresh_tokens():
+        #        cls._meta.fields["refresh_token"] = graphene.Field(graphene.String)
+        #    cls._meta.fields["token"] = graphene.Field(graphene.String)
         return super().Field(*args, **kwargs)
 
     @classmethod
@@ -86,14 +86,14 @@ class RegisterMixin(Output):
                     )
                     if send_activation:
                         user.status.send_activation_email(info)
-                    if app_settings.ALLOW_LOGIN_NOT_VERIFIED:
-                        payload = cls.login_on_register(
-                            root, info, password=kwargs.get("password1"), **kwargs
-                        )
-                        return_value = {}
-                        for field in cls._meta.fields:
-                            return_value[field] = getattr(payload, field)
-                        return cls(**return_value)
+                    #if app_settings.ALLOW_LOGIN_NOT_VERIFIED:
+                    #    payload = cls.login_on_register(
+                    #        root, info, password=kwargs.get("password1"), **kwargs
+                    #    )
+                    #    return_value = {}
+                    #    for field in cls._meta.fields:
+                    #        return_value[field] = getattr(payload, field)
+                    #    return cls(**return_value)
                     return cls(success=True)
                 else:
                     return cls(success=False, errors=f.errors.get_json_data())
